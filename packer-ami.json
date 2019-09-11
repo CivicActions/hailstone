@@ -1,7 +1,9 @@
 {
     "variables": {
       "ssh_username": "ec2-user",
-      "instance_type": "t2.medium"
+      "instance_type": "t2.medium",
+      "ssh_keypair_name": "{{env `AWS_KEY_NAME`}}",
+      "ssh_private_key_file": "{{env `AWS_PRIVATE_KEY`}}"
     },
     "builders": [{
       "type": "amazon-ebs",
@@ -17,8 +19,8 @@
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ami_name": "rhel7-hardened-{{timestamp}}",
-      "ssh_keypair_name": "KEY_NAME_HERE",
-      "ssh_private_key_file": "/PATH/TO/PRIVATE_KEY.pem",
+      "ssh_keypair_name": "{{user `ssh_keypair_name`}}",
+      "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
       "associate_public_ip_address": true
     }],
     "provisioners": [

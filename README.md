@@ -27,21 +27,15 @@ aws_access_key_id = ACCESS_KEY_ID_HERE
 aws_secret_access_key = SECRET_ACCESS_KEY_HERE
 ```
 
-
-
 ### **Packer** 
 Packer must be installed: https://www.packer.io/intro/getting-started/install.html
 
 ## Usage:
-Set your AWS profile environment variable to define the profile configuration and credentials that will be used:
+Set your AWS profile environment variables to define the profile configuration and credentials that will be used: 
 ```
 export AWS_PROFILE=cloud
-```
-
-Before running packer against the json file, a couple of parameters must be adjusted. Open `packer-ami.json` and modify the following two lines to match your keypair name (as defined in AWS) and the path to your private key: 
-```
-      "ssh_keypair_name": "KEY_NAME_HERE",
-      "ssh_private_key_file": "/PATH/TO/PRIVATE_KEY.pem",
+export AWS_KEY_NAME=name_of_aws_key
+export AWS_PROFILE=/path/to/private_key.pem
 ```
 Check to verify that your packer file is properly formatted:
 ```
