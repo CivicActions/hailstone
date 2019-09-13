@@ -3,9 +3,9 @@
     "region": "us-east-1",
     "ssh_username": "ec2-user",
     "instance_type": "t2.medium",
-    "keypair_name": "akumar",
-    "iam_instance_profile": "hailstone-s3-upload",
-    "key_file_path": "/Users/ashish/.ssh/id_rsa",
+    "keypair_name": "{{env `KEYPAIR_NAME`}}",
+    "iam_instance_profile": "{{env `IAM_INSTANCE_PROFILE`}}",
+    "key_file_path": "{{env `KEY_FILE_PATH`}}",
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
 
