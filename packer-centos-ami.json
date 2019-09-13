@@ -1,0 +1,41 @@
+{
+    "variables": {
+      
+      "region": "us-east-1",
+      "ssh_username": "centos",
+      "instance_type": "t2.medium",
+      "keypair_name": "akumar",
+      "iam_instance_profile": "hailstone-s3-upload"
+
+    },
+    "builders": [{
+      "type": "amazon-ebs",
+      "profile": "globalnet",
+      "region": "{{user `us-east-1`}}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "CentOS Linux 7 x86_64 HVM EBS ENA*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["679593333241"],
+        "most_recent": true
+      },
+      "instance_type": "{{user `instance_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_name": "centos-hardened-{{timestamp}}",
+      "ssh_keypair_name": "{{user `keypair_name`}}",
+      "iam_instance_profile": "{{user `iam_instance_profile`}}",
+      "ssh_private_key_file": "/Users/ashish/.ssh/id_rsa",
+      "associate_public_ip_address": true
+      
+
+    }],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "setup.sh",
+            "execute_command": "sudo -S bash {{.Path}}"
+        }
+    ]
+  }
