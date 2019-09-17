@@ -1,6 +1,4 @@
 #!/bin/sh
-all_args=$@
-echo $all_args > /tmp/test_file11
 bucket=hailstone-ami-scan-results
 cd /usr/local/bin
 PATH=${PATH}:/usr/local/bin
