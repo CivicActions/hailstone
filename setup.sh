@@ -2,13 +2,11 @@
 bucket=hailstone-ami-scan-results
 cd /usr/local/bin
 PATH=${PATH}:/usr/local/bin
-echo "after path setup"
-#sleep
+
 yum install -y epel-release wget
 export SCAP_TARGET='stig-rhel7-disa'
 export TAILORING_SUFFIX='_basefile'
 wget https://raw.githubusercontent.com/CivicActions/drydock/master/baselines/baseline7/scripts/build-yum
-#wget https://raw.githubusercontent.com/CivicActions/drydock/master/baselines/baseline7/scripts/openscap-harden
 chmod u+x ./build-yum
 
 #installing openscap
@@ -43,6 +41,3 @@ done
 build-yum remove -y epel-release wget
 build-yum clean all
 rm -rf ./build-yum 
-
-echo "sleeping..........."
-#sleep 3000
