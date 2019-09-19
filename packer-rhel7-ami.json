@@ -33,10 +33,13 @@
             "expect_disconnect": "true"
         },
         {
+            "environment_vars": [
+              "bucket={{ user `bucket_name`}}"
+            ],
             "type": "shell",
             "script": "setup.sh",
-            "execute_command": "sudo -S bash {{.Path}}",
-            "pause_before": "30s"
+            "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'",
+            "pause_before": "40s"
             
         }
     ]

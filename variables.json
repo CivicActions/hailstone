@@ -7,6 +7,7 @@
     "iam_instance_profile": "{{env `IAM_INSTANCE_PROFILE`}}",
     "key_file_path": "{{env `KEY_FILE_PATH`}}",
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "bucket_name": "{{env `BUCKET_NAME`}}"
 
   }
