@@ -1,23 +1,27 @@
 #!/bin/sh
-cd /usr/local/bin
-PATH=${PATH}:/usr/local/bin
-
-yum install -y epel-release wget
 export SCAP_TARGET='stig-rhel7-disa'
 export TAILORING_SUFFIX='_basefile'
 
+if [ -f "/etc/centos-release" ]
+then
+    OS=centos7
+    yum install -y epel-release wget
+    yum install -y python-pip
+    pip install awscli==1.16.5
+
+else
+    OS=rhel7
+    yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
+    yum install -y python27-python-pip wget
+    
+    echo 'python -m pip -v' | scl enable python27 bash
+    source /opt/rh/python27/enable
+    pip install awscli==1.16.5
+
+fi
+
 echo "installing openscap utilities"
 yum install -y openscap-utils scap-security-guide 
-
-echo "install python if not exist"
-cd ~
-rpm -aq python && true || yum install python
-python -m pip && true || wget https://bootstrap.pypa.io/get-pip.py; python get-pip.py --user
-python -m pip install awscli --user
-export PATH=~/.local/bin/:$PATH
-
-[ -f "/etc/centos-release" ] && OS=centos7 || OS=rhel7
-
 
 cd ~
 OVAL_REPORT_NAME=${OS}-oval-report.html
@@ -29,7 +33,6 @@ oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /us
 echo "Scaning with Stig definition"
 oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig-arf.xml --report ${REPORT_NAME} --profile "xccdf_org.ssgproject.content_profile_${SCAP_TARGET}" "/usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml" || true
 
-
 DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 
 reports=$(ls *.{html,xml})
@@ -40,4 +43,3 @@ done
 
 yum remove -y epel-release wget awscli
 yum clean all
-
