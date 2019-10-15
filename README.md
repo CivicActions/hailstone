@@ -1,7 +1,10 @@
-# Sample Packer json file to create a RHEL 7.7 AMI
+# Using Packer to build a hardened AMI
 
-This example packer file serves as a quick-start to creating a RHEL 7.7 AMI in AWS.   
-As with any suitable first building block, a *Hello World* (with a twist) has been included.
+The included packer files serve as a quick-start to creating an AMI in AWS.  
+Currently included are three variants that can be used:   
+- _**packer-ami.json**_: Creates a RHEL 7.7 instance, runs a simple Hello World script, and creates an AMI.
+- _**packer-rhel7-ami.json**_: Creates a RHEL 7.0 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
+- _**packer-centos-ami.json**_: Creates a CentOS 7 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
 
 ## Prerequisites:
 
@@ -31,21 +34,33 @@ aws_secret_access_key = SECRET_ACCESS_KEY_HERE
 Packer must be installed: https://www.packer.io/intro/getting-started/install.html
 
 ## Usage:
+
 Set your AWS profile environment variables to define the profile configuration and credentials that will be used: 
 ```
 export AWS_PROFILE=cloud
-export AWS_KEY_NAME=name_of_aws_key
-export AWS_PROFILE=/path/to/private_key.pem
+export KEYPAIR_NAME='name_of_key'
+export KEY_FILE_PATH=/path/to/private_key.pem
+export IAM_INSTANCE_PROFILE=hailstone-s3-upload
+export BUCKET_NAME=hailstone-ami-scan-results
+export INSTANCE_TYPE=t2.medium
+export SSH_USERNAME=ec2-user
 ```
-Check to verify that your packer file is properly formatted:
+
+Check to verify that your packer file is properly formatted:  
 ```
 packer validate packer-ami.json
 ```
-You can also inspect your packer file to get an overview of the various components:
+You can also inspect your packer file to get an overview of the various components:  
 ```
 packer inspect packer-ami.json
 ``` 
-Finally, build your new ami: 
+_Note: For the rhel/centos variants of the json file, you must reference the variables file when vaildating/inspecting as follows_ 
+```
+packer validate -var-file=variables.json packer-rhel7-ami.json
+```
+
+### Build sample ami including running the Hello World script
+Build your new ami: 
 ```
 packer build packer-ami.json
 ```
@@ -96,5 +111,14 @@ us-east-1: <Image ID>
 
 ```
 
-You now have an AMI that can be used to launch instances.  
+### Build a hardened RHEL/CentOS ami and publish the scan results to s3 bucket
+```
+packer build -var-file=variables.json packer-rhel7-ami.json
+```   
+or   
+```
+packer build -var-file=variables.json packer-centos-ami.json
+```
 
+After the successful execution of above command, you should see the new AMI created under the AMI section of the EC2 service on AWS.  
+You should also see the scan reports under the S3 service of AWS within the bucket defined in your environment variables above (in this example `hailstone-ami-scan-results`).
