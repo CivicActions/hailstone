@@ -4,7 +4,7 @@ pipeline {
 
     
     environment {
-                SSH_CREDS = credentials('halistone-aws-creds')
+                SSH_CREDS = 'KKKK'
             }
 
     stages {
