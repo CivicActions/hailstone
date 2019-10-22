@@ -12,11 +12,8 @@ then
 else
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
-    yum install -y python27-python-pip wget
-    
-    echo 'python -m pip -v' | scl enable python27 bash
-    source /opt/rh/python27/enable
-    pip install awscli==1.16.5
+    easy_install pip
+    pip install awscli==1.16.5 --user
 
 fi
 
@@ -38,7 +35,7 @@ DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 reports=$(ls *.{html,xml})
 for report in $reports;do
     echo "uploading generated report to s3:  $report"
-    aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/
+    su root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/"
 done
 
 yum remove -y epel-release wget awscli
