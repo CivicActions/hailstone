@@ -13,7 +13,7 @@ else
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
     easy_install pip
-    pip install awscli==1.16.5 --user
+    pip install awscli==1.16.5
 
 fi
 
@@ -25,10 +25,10 @@ OVAL_REPORT_NAME=${OS}-oval-report.html
 REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
 
 echo "Scaning with  SSG-OVAL definition"
-oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
+#oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
 
 echo "Scaning with Stig definition"
-oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig-arf.xml --report ${REPORT_NAME} --profile "xccdf_org.ssgproject.content_profile_${SCAP_TARGET}" "/usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml" || true
+#oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig-arf.xml --report ${REPORT_NAME} --profile "xccdf_org.ssgproject.content_profile_${SCAP_TARGET}" "/usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml" || true
 
 DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 
