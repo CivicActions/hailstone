@@ -35,7 +35,7 @@ DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 reports=$(ls *.{html,xml})
 for report in $reports;do
     echo "uploading generated report to s3:  $report"
-    su root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/"
+    su - root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/" 
 done
 
 yum remove -y epel-release wget awscli
