@@ -25,7 +25,7 @@ OVAL_REPORT_NAME=${OS}-oval-report.html
 REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
 
 echo "Scaning with  SSG-OVAL definition"
-#oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
+oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
 
 echo "Scaning with Stig definition"
 oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig-arf.xml --report ${REPORT_NAME} --profile "xccdf_org.ssgproject.content_profile_${SCAP_TARGET}" "/usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml" || true
