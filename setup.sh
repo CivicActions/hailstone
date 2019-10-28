@@ -13,7 +13,7 @@ else
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
     easy_install pip
-    pip install awscli==1.16.5 --user
+    pip install awscli==1.16.5
 
 fi
 
