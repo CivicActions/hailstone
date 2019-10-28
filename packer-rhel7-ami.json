@@ -8,10 +8,10 @@
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
-        "name": "CIS Red Hat Enterprise Linux 7 Benchmark v2.2.0.8*",
+        "name": "RHEL-7.0*",
         "root-device-type": "ebs"
       },
-      "owners": ["679593333241"],
+      "owners": ["309956199498"],
       "most_recent": true
     },
     "instance_type": "{{user `instance_type`}}",
