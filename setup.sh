@@ -25,6 +25,14 @@ cd ~
 OVAL_REPORT_NAME=${OS}-oval-report.html
 REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
 
+# Remediation steps
+firewall-cmd || yum install firewalld -y
+systemctl start firewalld
+firewall-cmd --set-default-zone public
+firewall-cmd --zone=public --permanent --add-service=ssh
+systemctl enable firewalld
+
+# scanning 
 echo "Scaning with  SSG-OVAL definition"
 oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
 
