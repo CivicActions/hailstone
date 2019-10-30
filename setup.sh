@@ -14,7 +14,7 @@ else
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
     easy_install pip
     pip install awscli==1.16.5
-    bash /workspace/remediate-rhel7.sh
+    bash ./remediate-rhel7.sh
 
 fi
 
