@@ -47,7 +47,7 @@ for report in $reports;do
 done
 
 # Disabling FIPS
-yum remove dracut-fips\*
+yum remove -y dracut-fips\*
 dracut --force
 grubby --update-kernel=ALL --remove-args=fips=1
 sed -i 's/ fips=1//' /etc/default/grub
