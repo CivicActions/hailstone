@@ -46,5 +46,11 @@ for report in $reports;do
     su - root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/" 
 done
 
+# Disabling FIPS
+yum remove dracut-fips\*
+dracut --force
+grubby --update-kernel=ALL --remove-args=fips=1
+sed -i 's/ fips=1//' /etc/default/grub
+
 yum remove -y epel-release wget awscli
 yum clean all
