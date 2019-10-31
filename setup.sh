@@ -31,6 +31,9 @@ firewall-cmd --set-default-zone public
 firewall-cmd --zone=public --permanent --add-service=ssh
 systemctl enable firewalld
 
+# Installing required packages
+yum install -y htop fail2ban aide
+
 # scanning 
 echo "Scaning with  SSG-OVAL definition"
 oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
