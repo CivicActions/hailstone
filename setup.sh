@@ -16,6 +16,8 @@ else
     pip install awscli==1.16.5
 
 fi
+echo "Update System"
+yum update -y
 
 echo "installing openscap utilities"
 yum install -y openscap-utils scap-security-guide 
