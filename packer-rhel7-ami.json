@@ -1,46 +1,44 @@
 {
     
-    "builders": [{
-      "type": "amazon-ebs",
-      "access_key": "{{user `aws_access_key`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
-      "region": "{{user `region`}}",
-      "source_ami_filter": {
-        "filters": {
-          "virtualization-type": "hvm",
-          "name": "RHEL-7.0*",
-          "root-device-type": "ebs"
-        },
-        "owners": ["309956199498"],
-        "most_recent": true
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "{{user `region`}}",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "RHEL-7.0*",
+        "root-device-type": "ebs"
       },
-      "instance_type": "{{user `instance_type`}}",
-      "ssh_username": "{{user `ssh_username`}}",
-      "ssh_pty": "true",
-      "ami_name": "RHEL7-hardened-{{timestamp}}",
-      "ssh_keypair_name": "{{user `keypair_name`}}",
-      "iam_instance_profile": "{{user `iam_instance_profile`}}",
-      "ssh_private_key_file": "{{user `key_file_path`}}",
-      "associate_public_ip_address": true
-      
+      "owners": ["309956199498"],
+      "most_recent": true
+    },
+    "instance_type": "{{user `instance_type`}}",
+    "ssh_username": "{{user `ssh_username`}}",
+    "ssh_pty": "true",
+    "ami_name": "RHEL7-hardened-{{timestamp}}",
+    "iam_instance_profile": "{{user `iam_instance_profile`}}",
+    "associate_public_ip_address": true
 
-    }],
-    "provisioners": [
-        {
-            "type": "shell",
-            "script": "setup.sh",
-            "execute_command": "sudo -S bash {{.Path}}",
-            "expect_disconnect": "true"
-        },
-        {
-            "environment_vars": [
-              "bucket={{ user `bucket_name`}}"
-            ],
-            "type": "shell",
-            "script": "setup.sh",
-            "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'",
-            "pause_before": "40s"
-            
-        }
-    ]
-  }
+
+  }],
+  "provisioners": [
+      {
+          "type": "shell",
+          "script": "setup.sh",
+          "execute_command": "sudo -S bash {{.Path}}",
+          "expect_disconnect": "true"
+      },
+      {
+          "environment_vars": [
+            "bucket={{ user `bucket_name`}}"
+          ],
+          "type": "shell",
+          "script": "setup.sh",
+          "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'",
+          "pause_before": "40s"
+
+      }
+  ]
+}

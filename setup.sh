@@ -12,10 +12,7 @@ then
 else
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
-    yum install -y python27-python-pip wget
-    
-    echo 'python -m pip -v' | scl enable python27 bash
-    source /opt/rh/python27/enable
+    easy_install pip
     pip install awscli==1.16.5
 
 fi
@@ -27,6 +24,17 @@ cd ~
 OVAL_REPORT_NAME=${OS}-oval-report.html
 REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
 
+# Remediation steps
+firewall-cmd || yum install firewalld -y
+systemctl start firewalld
+firewall-cmd --set-default-zone public
+firewall-cmd --zone=public --permanent --add-service=ssh
+systemctl enable firewalld
+
+# Installing required packages
+yum install -y htop fail2ban aide
+
+# scanning 
 echo "Scaning with  SSG-OVAL definition"
 oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
 
@@ -38,8 +46,14 @@ DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 reports=$(ls *.{html,xml})
 for report in $reports;do
     echo "uploading generated report to s3:  $report"
-    aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/
+    su - root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/" 
 done
+
+# Disabling FIPS
+yum remove -y dracut-fips\*
+dracut --force
+grubby --update-kernel=ALL --remove-args=fips=1
+sed -i 's/ fips=1//' /etc/default/grub
 
 yum remove -y epel-release wget awscli
 yum clean all
