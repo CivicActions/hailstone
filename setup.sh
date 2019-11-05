@@ -7,15 +7,19 @@ then
     OS=centos7
     yum install -y epel-release wget
     yum install -y python-pip
-    pip install awscli==1.16.5
+    pip install --user awscli==1.16.5
 
 else
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
     easy_install pip
-    pip install awscli==1.16.5
-
+    pip install --user awscli==1.16.5
+    export PATH=~/.local/bin:$PATH
+    
 fi
+echo "Update System"
+yum-complete-transaction --cleanup-only
+yum update -y
 
 echo "installing openscap utilities"
 yum install -y openscap-utils scap-security-guide 
