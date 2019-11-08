@@ -3,6 +3,7 @@ pipeline {
     
     environment {
         region = 'us-east-1'
+        instance_type = 't3.small'
     }
     stages {
         stage('Build Rhel7 Image') {
