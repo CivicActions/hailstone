@@ -133,3 +133,8 @@ You should also see the scan reports under the S3 service of AWS within the buck
 Whenever a Pull Request is created with reference to master branch, All checks should pass before one can review the code.
 
 After tests are successful, we should see Jenkins build running in our CA Jenkins (Hailstone folder) which will do all of the above steps ( Create an EC2 instance, Connect via SSH, Run security scans (OpenSCAP - OVAL and STIG), Push the reports to S3, Stop the Instance, Create an AMI, Terminate an EC2 instance )
+
+
+### NOTE -
+
+When you add some documentation to README file and ssg-rhel7-ds-justifications.yaml, Jenkins will run a build and create an AMI in AWS.
