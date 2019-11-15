@@ -122,3 +122,14 @@ packer build -var-file=variables.json packer-centos-ami.json
 
 After the successful execution of above command, you should see the new AMI created under the AMI section of the EC2 service on AWS.  
 You should also see the scan reports under the S3 service of AWS within the bucket defined in your environment variables above (in this example `hailstone-ami-scan-results`).
+
+
+
+
+===========================================
+
+### To create a new hardened AMI
+
+Whenever a Pull Request is created with reference to master branch, All checks should pass before one can review the code.
+
+After tests are successful, we should see Jenkins build running in our CA Jenkins (Hailstone folder) which will do all of the above steps ( Create an EC2 instance, Connect via SSH, Run security scans (OpenSCAP - OVAL and STIG), Push the reports to S3, Stop the Instance, Create an AMI, Terminate an EC2 instance )
