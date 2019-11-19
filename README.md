@@ -37,13 +37,15 @@ Packer must be installed: https://www.packer.io/intro/getting-started/install.ht
 
 Set your AWS profile environment variables to define the profile configuration and credentials that will be used: 
 ```
-export AWS_PROFILE=cloud
-export KEYPAIR_NAME='name_of_key'
+export REGION=us-east-1
+export KEYPAIR_NAME='name_of_key (your username)'
 export KEY_FILE_PATH=/path/to/private_key.pem
 export IAM_INSTANCE_PROFILE=hailstone-s3-upload
 export BUCKET_NAME=hailstone-ami-scan-results
 export INSTANCE_TYPE=t2.medium
 export SSH_USERNAME=ec2-user
+export AWS_ACCESS_KEY_ID='Your AWS access key ID'
+export AWS_SECRET_ACCESS_KEY='Your AWS secret access key'
 ```
 
 Check to verify that your packer file is properly formatted:  
