@@ -14,22 +14,6 @@ You will need to have a keypair created for accessing AWS instances. If you do n
 AWS API access must be configured. This includes the appropriate .aws/config and .aws/credentials files to provide valid entries.  
 Note: the profile name can be changed as needed, and multiple profiles can be defined allowing deployment to different accounts.   
 
-Examples:
-
-`cat ~/.aws/config`
-```
-[profile cloud]
-region=us-east-1
-output=json
-```
-
-`cat ~/.aws/credentials`
-```
-[cloud]
-aws_access_key_id = ACCESS_KEY_ID_HERE
-aws_secret_access_key = SECRET_ACCESS_KEY_HERE
-```
-
 ### **Packer** 
 Packer must be installed: https://www.packer.io/intro/getting-started/install.html
 
@@ -124,8 +108,6 @@ packer build -var-file=variables.json packer-centos-ami.json
 
 After the successful execution of above command, you should see the new AMI created under the AMI section of the EC2 service on AWS.  
 You should also see the scan reports under the S3 service of AWS within the bucket defined in your environment variables above (in this example `hailstone-ami-scan-results`).
-
-
 
 
 ===========================================
