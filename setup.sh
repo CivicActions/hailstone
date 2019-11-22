@@ -21,24 +21,20 @@ echo "Update System"
 yum-complete-transaction --cleanup-only
 yum update -y
 
-echo "installing openscap utilities"
-yum install -y openscap-utils scap-security-guide 
+echo "Installing required packages"
+yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld
 
 cd ~
 OVAL_REPORT_NAME=${OS}-oval-report.html
 REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
 
 # Remediation steps
-firewall-cmd || yum install firewalld -y
 systemctl start firewalld
-firewall-cmd --set-default-zone public
-firewall-cmd --zone=public --permanent --add-service=ssh
+firewall-cmd --set-default-zone drop 
+firewall-cmd --zone=drop --permanent --add-service=ssh
 systemctl enable firewalld
 
-# Installing required packages
-yum install -y htop fail2ban aide
-
-# scanning 
+# Scanning 
 echo "Scaning with  SSG-OVAL definition"
 oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
 
@@ -49,8 +45,8 @@ DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 
 reports=$(ls *.{html,xml})
 for report in $reports;do
-    echo "uploading generated report to s3:  $report"
-    su - root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/" 
+    echo "Uploading generated report to s3:  $report"
+    su - root -c "~/.local/bin/aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/" 
 done
 
 # Disabling FIPS
