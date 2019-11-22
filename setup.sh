@@ -29,10 +29,11 @@ OVAL_REPORT_NAME=${OS}-oval-report.html
 REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
 
 # Remediation steps
+systemctl restart dbus # Per RHEL Bugzilla (https://bugzilla.redhat.com/show_bug.cgi?id=1575845) 
+systemctl enable firewalld
 systemctl start firewalld
 firewall-cmd --set-default-zone drop 
 firewall-cmd --zone=drop --permanent --add-service=ssh
-systemctl enable firewalld
 
 # Scanning 
 echo "Scaning with  SSG-OVAL definition"
