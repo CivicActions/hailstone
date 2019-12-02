@@ -22,7 +22,7 @@ yum-complete-transaction --cleanup-only
 yum update -y
 
 echo "Installing required packages"
-yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld
+yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk
 
 cd ~
 OVAL_REPORT_NAME=${OS}-oval-report.html
