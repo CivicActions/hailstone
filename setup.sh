@@ -22,7 +22,7 @@ yum-complete-transaction --cleanup-only
 yum update -y
 
 echo "Installing required packages"
-yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk
+yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget
 
 cd ~
 OVAL_REPORT_NAME=${OS}-oval-report.html
@@ -37,7 +37,11 @@ firewall-cmd --zone=drop --permanent --add-service=ssh
 
 # Scanning 
 echo "Scaning with  SSG-OVAL definition"
-oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
+
+# Pull latest OVAL definitions
+wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_7.xml -O /tmp/Red_Hat_Enterprise_Linux_7.xml
+
+oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /tmp/Red_Hat_Enterprise_Linux_7.xml
 
 echo "Scaning with Stig definition"
 oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig-arf.xml --report ${REPORT_NAME} --profile "xccdf_org.ssgproject.content_profile_${SCAP_TARGET}" "/usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml" || true
