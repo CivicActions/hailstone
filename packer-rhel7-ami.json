@@ -11,10 +11,10 @@
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
-        "name": "RHEL-7.0*",
+        "name": "RHEL7-hardened*",
         "root-device-type": "ebs"
       },
-      "owners": ["309956199498"],
+      "owners": ["771664500885"],
       "most_recent": true
     },
     "instance_type": "{{user `instance_type`}}",
