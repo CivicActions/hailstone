@@ -1,56 +1,70 @@
 #!/bin/sh
+set -e
+env
 export SCAP_TARGET='stig-rhel7-disa'
 export TAILORING_SUFFIX='_basefile'
-
+#export PATH=/root/.local/bin:${PATH}
 if [ -f "/etc/centos-release" ]
 then
+    echo "****  Found OS: Centos   ****"
     OS=centos7
     yum install -y epel-release wget
     yum install -y python-pip
     pip install --user awscli==1.16.5
 
 else
+    echo "****  Found OS: RHEL   ****"
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
+    echo "****  Installing PIP   ****"
     easy_install pip
+    echo "****  installing awscli version 1.16.5   ****"
     pip install --user awscli==1.16.5
-    export PATH=~/.local/bin:$PATH
+    #export PATH=~/.local/bin:$PATH
     
 fi
-echo "Update System"
+
+echo "****  Updating OS     ****"
 yum-complete-transaction --cleanup-only
 yum update -y
 
-echo "installing openscap utilities"
+echo "****  installing openscap utilities   ****"
 yum install -y openscap-utils scap-security-guide 
 
-cd ~
-OVAL_REPORT_NAME=${OS}-oval-report.html
-REPORT_NAME=${OS}-${SCAP_TARGET}-report.html
+echo "****    Running Remediation steps   ****"
 
-# Remediation steps
+echo "****    Running firewalld remediation   ****"
 firewall-cmd || yum install firewalld -y
-systemctl start firewalld
-firewall-cmd --set-default-zone public
-firewall-cmd --zone=public --permanent --add-service=ssh
+systemctl restart dbus
+systemctl restart firewalld
 systemctl enable firewalld
 
-# Installing required packages
-yum install -y htop fail2ban aide
+echo "****    Firewalld: setting default zone => drop   ****"
+firewall-cmd --set-default-zone=drop
+firewall-cmd --zone=drop --permanent --add-service=ssh
+firewall-cmd --permanent --add-port=22/tcp
+firewall-cmd --reload
+
+echo "****    Installing required packages    ****"
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum -y --enablerepo="epel" install htop fail2ban
 
 # scanning 
-echo "Scaning with  SSG-OVAL definition"
-oscap oval eval --results scan-oval-results.xml --report ${OVAL_REPORT_NAME} /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
+echo "****      Scaning with  SSG-OVAL definition   ****"
+oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
 
-echo "Scaning with Stig definition"
-oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig-arf.xml --report ${REPORT_NAME} --profile "xccdf_org.ssgproject.content_profile_${SCAP_TARGET}" "/usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml" || true
+echo "****      Scaning with Stig definition    ****"
+#oscap xccdf eval --remediate --fetch-remote-resources --results-arf stig--xccdf-arf.xml --report scan-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || true
+# sleep 3000
+oscap xccdf eval  --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
 
-DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 
-reports=$(ls *.{html,xml})
+[ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
+#DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
+reports=$(ls scan*.{html,xml})
 for report in $reports;do
-    echo "uploading generated report to s3:  $report"
-    su - root -c "aws s3 cp ./${report} s3://${bucket}/${DIR_NAME}/" 
+    echo "****      uploading generated report to s3:  $report      ****"
+    su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/" 
 done
 
 # Disabling FIPS
@@ -59,5 +73,5 @@ dracut --force
 grubby --update-kernel=ALL --remove-args=fips=1
 sed -i 's/ fips=1//' /etc/default/grub
 
-yum remove -y epel-release wget awscli
+yum remove -y epel-release wget
 yum clean all
