@@ -9,10 +9,10 @@
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
-        "name": "RHEL7-hardened*",
+        "name": "RHEL-7.0*",
         "root-device-type": "ebs"
       },
-      "owners": ["771664500885"],
+      "owners": ["309956199498"],
       "most_recent": true
     },
     "instance_type": "{{user `instance_type`}}",
@@ -20,7 +20,10 @@
     "ssh_pty": "true",
     "ami_name": "RHEL7-hardened-{{isotime \"2006-01-02-1504\"}}",
     "iam_instance_profile": "{{user `iam_instance_profile`}}",
-    "associate_public_ip_address": true
+    "associate_public_ip_address": true,
+    "tags": {
+      "SourceAMI": "{{ .SourceAMI }}"
+    }
 
 
   }],
