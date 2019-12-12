@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 env
+
 export SCAP_TARGET='stig-rhel7-disa'
 export TAILORING_SUFFIX='_basefile'
 #export PATH=/root/.local/bin:${PATH}
@@ -20,7 +21,6 @@ else
     easy_install pip
     echo "****  installing awscli version 1.16.5   ****"
     pip install --user awscli==1.16.5
-    #export PATH=~/.local/bin:$PATH
     
 fi
 
@@ -28,8 +28,9 @@ echo "****  Updating OS     ****"
 yum-complete-transaction --cleanup-only
 yum update -y
 
-echo "****  installing openscap utilities   ****"
-yum install -y openscap-utils scap-security-guide 
+echo "****  Installing required packages   ****"
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget
 
 echo "****    Running Remediation steps   ****"
 
@@ -45,19 +46,14 @@ firewall-cmd --zone=drop --permanent --add-service=ssh
 firewall-cmd --permanent --add-port=22/tcp
 firewall-cmd --reload
 
-echo "****    Installing required packages    ****"
-rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-yum -y --enablerepo="epel" install htop fail2ban
-
-# scanning 
+# Scanning 
 echo "****      Scaning with  SSG-OVAL definition   ****"
-oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /usr/share/xml/scap/ssg/content/ssg-${OS}-ds.xml
+# Pull latest OVAL definitions
+wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_7.xml -O /tmp/Red_Hat_Enterprise_Linux_7.xml
+oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/Red_Hat_Enterprise_Linux_7.xml
 
 echo "****      Scaning with Stig definition    ****"
- oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
-#oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
-#oscap xccdf eval --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
-
+oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
 
 [ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
 #DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
