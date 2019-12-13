@@ -146,3 +146,6 @@ After tests are successful, we should see Jenkins build running in our CA Jenkin
 ### NOTE -
 
 When you add some documentation to README file and ssg-rhel7-ds-justifications.yaml, Jenkins will run a build and create an AMI in AWS.
+
+### To Do -
+A shell script can be created to launch packer build to ease the process. The script can also check  before build if any required variable is missing and guide use for the same.
