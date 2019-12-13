@@ -18,28 +18,47 @@
     "instance_type": "{{user `instance_type`}}",
     "ssh_username": "{{user `ssh_username`}}",
     "ssh_pty": "true",
-    "ami_name": "RHEL7-hardened-{{timestamp}}",
+    "ami_name": "RHEL7-hardened-{{isotime \"2006-01-02-1504\"}}",
     "iam_instance_profile": "{{user `iam_instance_profile`}}",
-    "associate_public_ip_address": true
+    "associate_public_ip_address": true,
+    "tags": {
+      "SourceAMI": "{{ .SourceAMI }}"
+    }
 
 
   }],
   "provisioners": [
-      {
-          "type": "shell",
-          "script": "setup.sh",
-          "execute_command": "sudo -S bash {{.Path}}",
-          "expect_disconnect": "true"
-      },
+    {
+      "type": "file",
+      "source": "./ssg-rhel7-ds-tailoring.xml",
+      "destination": "/home/ec2-user/"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "echo '****   Updating kernel   ****'",
+        "sudo yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'",
+        "sudo yum -y update kernel kernel-tools*",
+        "sudo systemctl reboot"
+      ],
+      "expect_disconnect": "true"
+    },
       {
           "environment_vars": [
-            "bucket={{ user `bucket_name`}}"
+            "bucket={{ user `bucket_name`}}",
+            "ami_name=RHEL7-hardened-{{isotime \"2006-01-02-1504\"}}"
           ],
           "type": "shell",
           "script": "setup.sh",
-          "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'",
+          "execute_command": "{{.Vars}} sudo -E -sS bash '{{.Path}}'",
           "pause_before": "40s"
-
       }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    }
   ]
 }

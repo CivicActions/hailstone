@@ -20,10 +20,16 @@ Packer must be installed: https://www.packer.io/intro/getting-started/install.ht
 ## Usage:
 
 Set your AWS profile environment variables to define the profile configuration and credentials that will be used: 
+
+### Environment variables for packer template: packer-ami.json
+```
+export AWS_ACCESS_KEY_ID='Your AWS access key ID'
+export AWS_SECRET_ACCESS_KEY='Your AWS secret access key'
+```
+
+### Environment variables for packer template: packer-rhel7-ami.json
 ```
 export REGION=us-east-1
-export KEYPAIR_NAME='name_of_key (your username)'
-export KEY_FILE_PATH=/path/to/private_key.pem
 export IAM_INSTANCE_PROFILE=hailstone-s3-upload
 export BUCKET_NAME=hailstone-ami-scan-results
 export INSTANCE_TYPE=t2.medium
@@ -122,3 +128,6 @@ After tests are successful, we should see Jenkins build running in our CA Jenkin
 ### NOTE -
 
 When you add some documentation to README file and ssg-rhel7-ds-justifications.yaml, Jenkins will run a build and create an AMI in AWS.
+
+### To Do -
+A shell script can be created to launch packer build to ease the process. The script can also check  before build if any required variable is missing and guide use for the same.
