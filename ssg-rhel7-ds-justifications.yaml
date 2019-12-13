@@ -83,3 +83,114 @@ catalog:
     severity: low
     - justification: |
         This does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_krb_sec_remote_filesystems
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_bootloader-grub2
+    severity: 
+    - justification: |
+
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_permissions_efi_grub2_cfg
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_owner_efi_grub2_cfg
+    severity: 
+    - justification: |        
+
+
+  - rule_id: xccdf_org.ssgproject.content_rule_uefi_no_removeable_media
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_groupowner_grub2_cfg
+    severity: 
+    - justification: |
+        
+  
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_enable_iommu_force
+    severity: 
+    - justification: |
+  
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_groupowner_efi_grub2_cfg
+    severity: 
+    - justification: |
+        
+  
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_no_removeable_media
+    severity: 
+    - justification: |
+
+
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_uefi_password
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_owner_grub2_cfg
+    severity: 
+    - justification: |
+        
+        
+  - rule_id: xccdf_org.ssgproject.content_rule_file_permissions_grub2_cfg
+    severity: 
+    - justification: |
+        
+        
+  - rule_id: xccdf_org.ssgproject.content_group_disk_partitioning
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_var_log
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_var_tmp
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_encrypt_partitions
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_srv
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_fips
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_package_dracut-fips_installed
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_mcafee_security_software
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_endpoint_security_software
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_security_patches_up_to_date
+    severity: 
+    - justification: |
+        
+
