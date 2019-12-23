@@ -22,7 +22,8 @@
     "iam_instance_profile": "{{user `iam_instance_profile`}}",
     "associate_public_ip_address": true,
     "tags": {
-      "SourceAMI": "{{ .SourceAMI }}"
+      "SourceAMI": "{{ .SourceAMI }}",
+      "validation_level": "{{user `validation_tag`}}"
     }
 
 
