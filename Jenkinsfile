@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         region = 'us-east-1'
-        validation_tag = sh (returnStdout: true, script: '[ "$GIT_BRANCH" = "rd-5080-test-os-mechanism" ] && echo development || echo ""').trim()
+        validation_tag = sh (returnStdout: true, script: '[ "$GIT_BRANCH" = "master" ] && echo development || echo ""').trim()
     }
     stages {
         stage('Build Rhel7 Image') {
