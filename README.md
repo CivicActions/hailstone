@@ -65,6 +65,8 @@ Packer will perform these steps:
 - create AMI
 - terminate the instance
 
+Test the PR 
+
 The output will look like this: 
 ```
 packer build packer-ami.json 
