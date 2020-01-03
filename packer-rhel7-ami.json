@@ -22,7 +22,8 @@
     "iam_instance_profile": "{{user `iam_instance_profile`}}",
     "associate_public_ip_address": true,
     "tags": {
-      "SourceAMI": "{{ .SourceAMI }}"
+      "SourceAMI": "{{ .SourceAMI }}",
+      "validation_level": "{{user `validation_tag`}}"
     }
 
 
@@ -43,6 +44,14 @@
       ],
       "expect_disconnect": "true"
     },
+    {
+      "type": "shell",
+      "inline": [
+        "echo 'removing older kernels'",
+        "sudo package-cleanup --version || sudo yum -y install yum-utils",
+        "sudo package-cleanup --oldkernels --count=1 -y"
+      ]
+    },
       {
           "environment_vars": [
             "bucket={{ user `bucket_name`}}",
@@ -62,3 +71,4 @@
     }
   ]
 }
+

@@ -8,6 +8,6 @@
     "key_file_path": "{{env `KEY_FILE_PATH`}}",
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
-    "bucket_name": "{{env `BUCKET_NAME`}}"
-
+    "bucket_name": "{{env `BUCKET_NAME`}}",
+    "validation_tag": "{{env `validation_tag`}}"
   }
