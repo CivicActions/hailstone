@@ -44,6 +44,14 @@
       ],
       "expect_disconnect": "true"
     },
+    {
+      "type": "shell",
+      "inline": [
+        "echo 'removing older kernels'",
+        "sudo package-cleanup --version || sudo yum -y install yum-utils",
+        "sudo package-cleanup --oldkernels --count=1 -y"
+      ]
+    },
       {
           "environment_vars": [
             "bucket={{ user `bucket_name`}}",
