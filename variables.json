@@ -4,6 +4,7 @@
     "ssh_username": "{{env `SSH_USERNAME`}}",
     "instance_type": "{{env `INSTANCE_TYPE`}}",
     "keypair_name": "{{env `KEYPAIR_NAME`}}",
+    "ami_groups": "{{env `AMI_GROUPS`}}",
     "iam_instance_profile": "{{env `IAM_INSTANCE_PROFILE`}}",
     "key_file_path": "{{env `KEY_FILE_PATH`}}",
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",

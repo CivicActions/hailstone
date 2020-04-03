@@ -16,6 +16,7 @@
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ami_name": "centos-hardened-{{timestamp}}",
+      "ami_groups": "{{user `ami_groups`}}",
       "ssh_keypair_name": "{{user `keypair_name`}}",
       "iam_instance_profile": "{{user `iam_instance_profile`}}",
       "ssh_private_key_file": "{{user `key_file_path`}}",
