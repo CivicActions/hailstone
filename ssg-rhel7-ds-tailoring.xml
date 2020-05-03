@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xccdf:Tailoring xmlns:xccdf="http://checklists.nist.gov/xccdf/1.2" id="xccdf_scap-workbench_tailoring_default">
-  <xccdf:benchmark href="/usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml"/>
+  <xccdf:benchmark href="/usr/share/xml/scap/ssg/content/ssg-rhel7-ds-1.2.xml"/>
   <xccdf:version time="2019-11-22T19:09:04">1</xccdf:version>
   <xccdf:Profile id="xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" extends="xccdf_org.ssgproject.content_profile_stig-rhel7-disa">
     <xccdf:title xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="en-US" override="true">DISA STIG for Red Hat Enterprise Linux 7 [CUSTOMIZED]</xccdf:title>
