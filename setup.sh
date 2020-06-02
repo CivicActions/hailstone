@@ -53,7 +53,7 @@ wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_7.xml
 oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/Red_Hat_Enterprise_Linux_7.xml
 
 echo "****      Scaning with Stig definition    ****"
-oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result-untailored.xml --report scan-stig-xccdf-report-untailored.html --profile xccdf_org.content_profile_stig /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml || echo "Seems the scan finished with non-zero error code:      $?"
+oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result-untailored.xml --report scan-stig-xccdf-report-untailored.html --profile xccdf_org.ssgproject.content_profile_stig /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml || echo "Seems the scan finished with non-zero error code:      $?"
 
 [ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
 #DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
