@@ -21,7 +21,7 @@ else
     easy_install pip
     echo "****  installing awscli version 1.16.5   ****"
     pip install --user awscli==1.16.5
-    
+
 fi
 
 echo "****  Updating OS     ****"
@@ -46,21 +46,21 @@ firewall-cmd --zone=drop --permanent --add-service=ssh
 firewall-cmd --permanent --add-port=22/tcp
 firewall-cmd --reload
 
-# Scanning 
+# Scanning
 echo "****      Scaning with  SSG-OVAL definition   ****"
 # Pull latest OVAL definitions
 wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_7.xml -O /tmp/Red_Hat_Enterprise_Linux_7.xml
 oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/Red_Hat_Enterprise_Linux_7.xml
 
 echo "****      Scaning with Stig definition    ****"
-oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
+oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result-untailored.xml --report scan-stig-xccdf-report-untailored.html --profile xccdf_org.content_profile_stig /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml || echo "Seems the scan finished with non-zero error code:      $?"
 
 [ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
 #DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
 reports=$(ls scan*.{html,xml})
 for report in $reports;do
     echo "****      uploading generated report to s3:  $report      ****"
-    su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/" 
+    su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/"
 done
 
 # Disabling FIPS
