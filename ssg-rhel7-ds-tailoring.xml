@@ -11,7 +11,6 @@ all of these checks should pass.</xccdf:description>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_grub2_password" selected="false"/>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_sudo_remove_nopasswd" selected="false"/>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_home" selected="false"/>
-    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_tmp" selected="false"/>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_var" selected="false"/>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_var_log_audit" selected="false"/>
   </xccdf:Profile>
