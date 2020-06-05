@@ -21,7 +21,7 @@ else
     easy_install pip
     echo "****  installing awscli version 1.16.5   ****"
     pip install --user awscli==1.16.5
-    
+
 fi
 
 echo "****  Updating OS     ****"
@@ -33,6 +33,9 @@ rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget
 
 echo "****    Running Remediation steps   ****"
+
+echo "****    Configuring tmpfs     ****"
+echo "tmpfs  /tmp    tmpfs   noexec,nosuid" >> /etc/fstab
 
 echo "****    Running firewalld remediation   ****"
 firewall-cmd || yum install firewalld -y
@@ -46,7 +49,7 @@ firewall-cmd --zone=drop --permanent --add-service=ssh
 firewall-cmd --permanent --add-port=22/tcp
 firewall-cmd --reload
 
-# Scanning 
+# Scanning
 echo "****      Scaning with  SSG-OVAL definition   ****"
 # Pull latest OVAL definitions
 wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_7.xml -O /tmp/Red_Hat_Enterprise_Linux_7.xml
@@ -60,7 +63,7 @@ oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xc
 reports=$(ls scan*.{html,xml})
 for report in $reports;do
     echo "****      uploading generated report to s3:  $report      ****"
-    su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/" 
+    su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/"
 done
 
 # Disabling FIPS
