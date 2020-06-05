@@ -34,6 +34,9 @@ yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld g
 
 echo "****    Running Remediation steps   ****"
 
+echo "****    Configuring tmpfs     ****"
+echo "tmpfs  /tmp    tmpfs   noexec,nosuid" >> /etc/fstab
+
 echo "****    Running firewalld remediation   ****"
 firewall-cmd || yum install firewalld -y
 systemctl restart dbus
