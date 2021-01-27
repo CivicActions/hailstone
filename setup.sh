@@ -10,19 +10,18 @@ then
     echo "****  Found OS: Centos   ****"
     OS=centos7
     yum install -y epel-release wget
-    yum install -y python-pip
-    pip install --user awscli==1.16.5
-
 else
     echo "****  Found OS: RHEL   ****"
     OS=rhel7
     yum-config-manager --enable 'Red Hat Enterprise Linux Server 7 RHSCL (RPMs)'
-    echo "****  Installing PIP   ****"
-    easy_install pip
-    echo "****  installing awscli version 1.16.5   ****"
-    pip install --user awscli==1.16.5
-    
 fi
+
+echo "****  Installing PIP   ****"
+yum install -y curl python3
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py
+echo "****  installing awscli version 1.16.5   ****"
+pip3 install --user awscli==1.16.5
 
 echo "****  Updating OS     ****"
 yum-complete-transaction --cleanup-only
