@@ -34,7 +34,7 @@ yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld g
 echo "****    Running Remediation steps   ****"
 
 echo "****    Running firewalld remediation   ****"
-firewall-cmd || yum install firewalld -y
+firewall-cmd -V || yum install firewalld -y
 systemctl restart dbus
 systemctl restart firewalld
 systemctl enable firewalld
@@ -51,8 +51,12 @@ echo "****      Scaning with  SSG-OVAL definition   ****"
 wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_7.xml -O /tmp/Red_Hat_Enterprise_Linux_7.xml
 oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/Red_Hat_Enterprise_Linux_7.xml
 
-echo "****      Scaning with Stig definition    ****"
+echo "****      Scaning with Stig definition and updated ssg-rhel7-ds-tailoring.xml file     ****"
 oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" /home/ec2-user/ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
+#oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel7-disa_tailored" ssg-rhel7-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
+#No tailoring file
+#oscap xccdf eval --remediate --fetch-remote-resources --results-arf  scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile xccdf_org.ssgproject.content_profile_stig /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml || echo "Seems the scan finished with non-zero error code:      $?"
+ 
 
 [ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
 #DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S")
