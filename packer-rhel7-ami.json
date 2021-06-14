@@ -20,6 +20,7 @@
     "ssh_pty": "true",
     "ami_name": "RHEL7-hardened-{{isotime \"2006-01-02-1504\"}}",
     "ami_groups": "{{user `ami_groups`}}",
+    "ami_regions": "{{user `ami_regions`}}",
     "iam_instance_profile": "{{user `iam_instance_profile`}}",
     "associate_public_ip_address": true,
     "tags": {
