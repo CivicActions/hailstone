@@ -30,7 +30,9 @@ export SSH_USERNAME=ec2-user
 export AWS_ACCESS_KEY_ID='Your AWS access key ID'
 export AWS_SECRET_ACCESS_KEY='Your AWS secret access key'
 ```
-You can also optionally export a value for AMI_GROUPS to define what groups have permission to launch the AMI. Be default no groups have permissions, whereas setting to 'all' makes the AMI publicly accessible. 
+***Optional***: Export a value for `AMI_GROUPS` to define what groups have permission to launch the AMI. Be default no groups have permissions, whereas setting to 'all' makes the AMI publicly accessible.
+
+***Optional***: Export a value for `AMI_REGIONS` to define the regions to copy the resulting AMI to. If not defined, the AMI is only saved to the same region used to create the AMI (defined via the `REGION` variable).
 
 Check to verify that your packer file is properly formatted:  
 ```
@@ -53,19 +55,4 @@ packer build -var-file=variables.json packer-centos-ami.json
 After the successful execution of above command, you should see the new AMI created under the AMI section of the EC2 service on AWS.  
 You should also see the scan reports under the S3 service of AWS within the bucket defined in your environment variables above (in this example `hailstone-ami-scan-results`).
 
-
 ===========================================
-
-### To create a new hardened AMI
-
-Whenever a Pull Request is created with reference to master branch, All checks should pass before one can review the code.
-
-After tests are successful, we should see Jenkins build running in our CA Jenkins (Hailstone folder) which will do all of the above steps ( Create an EC2 instance, Connect via SSH, Run security scans (OpenSCAP - OVAL and STIG), Push the reports to S3, Stop the Instance, Create an AMI, Terminate an EC2 instance )
-
-
-### NOTE -
-
-When you add some documentation to README file and ssg-rhel7-ds-justifications.yaml, Jenkins will run a build and create an AMI in AWS.
-
-### To Do -
-A shell script can be created to launch packer build to ease the process. The script can also check  before build if any required variable is missing and guide use for the same.
