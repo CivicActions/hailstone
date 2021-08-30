@@ -4,6 +4,7 @@
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
       "region": "{{user `region`}}",
+      "ena_support": true,
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
