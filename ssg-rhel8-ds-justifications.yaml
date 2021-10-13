@@ -1,0 +1,196 @@
+tailoring: ssg-rhel8-ds
+ssg_version: 1.46
+baseline: "DISA STIG"
+profile: "rhel8/profiles/stig.profile"
+catalog:
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_password
+    severity: high
+    - justification: |
+        GlobalNET server instances are in a FedRAMP certified cloud that maintains control
+        over the bootloader. AWS does not provide a way to type in a bootloader password
+        during the boot process.
+        
+  - rule_id: xccdf_org.ssgproject.content_rule_install_mcafee_antivirus
+    severity: high
+    - justification: |
+        GlobalNET employs ClamAV rather than McAfee for anti-virus scanning.
+        
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_enable_fips_mode
+    severity: high
+    - justification: |
+        Full FIPS mode is not available in the AWS us-east cloud as the hardware is not
+        guaranteed to be certified. However, GlobalNET makes use of FIPS compliant openssl
+        software and SSL certificates.
+
+        Revisit: This passed in rhel7-20191104-154820
+       
+  - rule_id: xccdf_org.ssgproject.content_rule_rpm_verify_hashes
+    severity: high
+    - justification: |
+        Revisit: This could be a false positive, but the goal is to remediate this fail.
+    
+  - rule_id: xccdf_org.ssgproject.content_rule_audit_rules_privileged_commands
+    severity: medium
+    - justification: |
+        Revisit: This could be a false positive, but the goal is to remediate this fail.
+        
+  - rule_id: xccdf_org.ssgproject.content_rule_set_firewalld_default_zone
+    severity: medium
+    - justification: |
+        Setting the default zone to drop implements proper design for a firewall.
+    
+  - rule_id: xccdf_org.ssgproject.content_rule_service_firewalld_enabled
+    severity: medium
+    - justification: |
+        Revisit: This could be a false positive, but the goal is to remediate this fail.
+    
+  - rule_id: xccdf_org.ssgproject.content_rule_network_configure_name_resolution
+    severity: unknown
+    - justification: |
+        Revisit: The goal is to remediate this fail.
+    
+  - rule_id: xccdf_org.ssgproject.content_rule_selinux_all_devicefiles_labeled
+    severity: medium
+    - justification: |
+        Revisit: The goal is to remediate this fail.
+    
+  - rule_id: 	xccdf_org.ssgproject.content_rule_sudo_remove_nopasswd
+    severity: medium
+    - justification: |
+        Revisit: The goal is to remediate this fail.
+    
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_home_nosuid
+    severity: unknown
+    - justification: |
+        Revisit: The goal is to remediate this fail.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_home
+    severity: low
+    - justification: |
+        This does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_tmp
+    severity: low
+    - justification: |
+        This does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_var
+    severity: low
+    - justification: |
+        This does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_var_log_audit
+    severity: low
+    - justification: |
+        This does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_krb_sec_remote_filesystems
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_bootloader-grub2
+    severity: 
+    - justification: |
+
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_permissions_efi_grub2_cfg
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_owner_efi_grub2_cfg
+    severity: 
+    - justification: |        
+
+
+  - rule_id: xccdf_org.ssgproject.content_rule_uefi_no_removeable_media
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_groupowner_grub2_cfg
+    severity: 
+    - justification: |
+        
+  
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_enable_iommu_force
+    severity: 
+    - justification: |
+  
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_groupowner_efi_grub2_cfg
+    severity: 
+    - justification: |
+        
+  
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_no_removeable_media
+    severity: 
+    - justification: |
+
+
+  - rule_id: xccdf_org.ssgproject.content_rule_grub2_uefi_password
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_file_owner_grub2_cfg
+    severity: 
+    - justification: |
+        
+        
+  - rule_id: xccdf_org.ssgproject.content_rule_file_permissions_grub2_cfg
+    severity: 
+    - justification: |
+        
+        
+  - rule_id: xccdf_org.ssgproject.content_group_disk_partitioning
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_var_log
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_var_tmp
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_encrypt_partitions
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_partition_for_srv
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_fips
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_package_dracut-fips_installed
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_mcafee_security_software
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_group_endpoint_security_software
+    severity: 
+    - justification: |
+        
+
+  - rule_id: xccdf_org.ssgproject.content_rule_security_patches_up_to_date
+    severity: 
+    - justification: |
+        
+
