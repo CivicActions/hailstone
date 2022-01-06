@@ -30,7 +30,7 @@
               "bucket={{ user `bucket_name`}}"
             ],
             "type": "shell",
-            "script": "setup.sh",
+            "script": "setup-rhel7.sh",
             "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'"
         }
     ]

@@ -4,6 +4,7 @@ The included packer files serve as a quick-start to creating a hardened AMI in A
 Currently included are two variants that can be used:   
 - _**packer-rhel7-ami.json**_: Creates a RHEL 7.0 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
 - _**packer-centos-ami.json**_: Creates a CentOS 7 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
+- _**packer-rhel8-ami.json**_: Creates a RHEL 8.4 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
 
 ## Prerequisites:
 

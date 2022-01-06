@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xccdf:Tailoring xmlns:xccdf="http://checklists.nist.gov/xccdf/1.2" id="xccdf_scap-workbench_tailoring_default">
+  <xccdf:benchmark href="/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml"/>
+  <xccdf:version time="2019-11-22T19:09:04">1</xccdf:version>
+  <xccdf:Profile id="xccdf_org.globalnet_profile_stig-rhel8-disa_tailored" extends="xccdf_org.ssgproject.content_profile_stig">
+    <xccdf:title xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="en-US" override="true">DISA STIG for Red Hat Enterprise Linux 8 [CUSTOMIZED]</xccdf:title>
+    <xccdf:description xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="en-US" override="true">This profile contains rules to ensure standard security baseline
+of Red Hat Enterprise Linux 8 system. Regardless of your system's workload
+all of these checks should pass.</xccdf:description>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_krb_sec_remote_filesystems" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_group_bootloader-grub2" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_file_permissions_efi_grub2_cfg" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_file_owner_efi_grub2_cfg" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_uefi_no_removeable_media" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_file_groupowner_grub2_cfg" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_grub2_enable_iommu_force" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_file_groupowner_efi_grub2_cfg" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_grub2_no_removeable_media" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_grub2_uefi_password" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_file_owner_grub2_cfg" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_file_permissions_grub2_cfg" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_grub2_password" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_group_disk_partitioning" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_var_log" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_var_log_audit" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_tmp" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_var" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_var_tmp" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_encrypt_partitions" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_home" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_partition_for_srv" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_sudo_remove_nopasswd" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_group_fips" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_grub2_enable_fips_mode" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_package_dracut-fips_installed" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_install_mcafee_antivirus" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_group_mcafee_security_software" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_group_endpoint_security_software" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_home_nosuid" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_security_patches_up_to_date" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_network_configure_name_resolution" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_audit_rules_privileged_commands" selected="false"/>
+    <!-- new for RHEL 8 -->
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_boot_nosuid" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_home_noexec" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_tmp_nodev" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_tmp_noexec" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_log_audit_nodev" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_log_audit_noexec" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_log_audit_nosuid" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_log_nodev" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_log_noexec" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_log_nosuid" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_tmp_nodev" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_tmp_noexec" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_mount_option_var_tmp_nosuid" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_sssd_enable_certmap" selected="false"/>
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_usbguard_generate_policy" selected="false"/>
+    <!-- RD-6613 - New test requires explicit set of allowed local users -->
+    <xccdf:set-value idref="xccdf_org.ssgproject.content_value_var_accounts_authorized_local_users_regex">^(adm|bin|chrony|daemon|dbus|ec2-user|ftp|games|halt|lp|mail|nobody|operator|polkitd|shutdown|sshd|sssd|sync|systemd-coredump|systemd-resolve|tss|unbound|{{ account_users|join("|",attribute='name')}}|{{ developer_users|join("|",attribute='name')}}|{{ system_users|join("|",attribute='name')}}|{{ system_service|join("|",attribute='name')}})$</xccdf:set-value>
+ </xccdf:Profile>
+</xccdf:Tailoring>
