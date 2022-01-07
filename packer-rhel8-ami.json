@@ -9,7 +9,7 @@
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
-        "name": "RHEL-8.4.0_HVM-*x86_64*",
+        "name": "RHEL-8.5.0_HVM-*x86_64*",
         "root-device-type": "ebs"
       },
       "owners": ["309956199498"],

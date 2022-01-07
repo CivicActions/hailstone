@@ -58,6 +58,6 @@ all of these checks should pass.</xccdf:description>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_sssd_enable_certmap" selected="false"/>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_usbguard_generate_policy" selected="false"/>
     <!-- RD-6613 - New test requires explicit set of allowed local users -->
-    <xccdf:set-value idref="xccdf_org.ssgproject.content_value_var_accounts_authorized_local_users_regex">^(adm|bin|chrony|daemon|dbus|ec2-user|ftp|games|halt|lp|mail|nobody|operator|polkitd|shutdown|sshd|sssd|sync|systemd-coredump|systemd-resolve|tss|unbound|{{ account_users|join("|",attribute='name')}}|{{ developer_users|join("|",attribute='name')}}|{{ system_users|join("|",attribute='name')}}|{{ system_service|join("|",attribute='name')}})$</xccdf:set-value>
+    <xccdf:set-value idref="xccdf_org.ssgproject.content_value_var_accounts_authorized_local_users_regex">^(adm|bin|chrony|daemon|dbus|ec2-user|ftp|games|halt|lp|mail|nobody|operator|polkitd|shutdown|sshd|sssd|sync|systemd-coredump|systemd-resolve|tss|unbound)$</xccdf:set-value>
  </xccdf:Profile>
 </xccdf:Tailoring>
