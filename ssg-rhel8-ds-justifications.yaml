@@ -276,4 +276,4 @@ catalog:
   - rule_id: xccdf_org.ssgproject.content_value_var_accounts_authorized_local_users_regex
     severity: medium
     - justification: |
-        Authorized user list customized based on GlobalNET base configuration.
+        Authorized user list for base configuration.
