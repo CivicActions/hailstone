@@ -1,7 +1,7 @@
-tailoring: ssg-rhel7-ds
+tailoring: ssg-rhel8-ds
 ssg_version: 1.46
 baseline: "DISA STIG"
-profile: "rhel7/profiles/stig.profile"
+profile: "rhel8/profiles/stig.profile"
 catalog:
   - rule_id: xccdf_org.ssgproject.content_rule_grub2_password
     severity: high
@@ -117,7 +117,7 @@ catalog:
   - rule_id: xccdf_org.ssgproject.content_rule_grub2_enable_iommu_force
     severity: 
     - justification: |
-        
+
 
   - rule_id: xccdf_org.ssgproject.content_rule_file_groupowner_efi_grub2_cfg
     severity: 
@@ -127,7 +127,7 @@ catalog:
   - rule_id: xccdf_org.ssgproject.content_rule_grub2_no_removeable_media
     severity: 
     - justification: |
-
+        
 
   - rule_id: xccdf_org.ssgproject.content_rule_grub2_uefi_password
     severity: 
@@ -193,8 +193,107 @@ catalog:
     severity: 
     - justification: |
         
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_boot_nosuid
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_home_noexec
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_tmp_nodev
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_tmp_noexec
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_log_audit_nodev
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_log_audit_noexec
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_log_audit_nosuid
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_log_nodev
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_log_noexec
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_log_nosuid
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_tmp_nodev
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_tmp_noexec
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_mount_option_var_tmp_nosuid
+    severity: medium
+    - justification: |
+        Not partitioned, this does not apply to short-lived CloudFormation instances and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_sssd_enable_certmap
+    severity: medium
+    - justification: |
+        Image intended for FedRAMP cloud usage, no federated identity used, and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_usbguard_generate_policy
+    severity: medium
+    - justification: |
+        CloudFormation instances do not have USB devices and will be tailored.
+
   - rule_id: xccdf_org.ssgproject.content_value_var_accounts_authorized_local_users_regex
     severity: medium
     - justification: |
         Authorized user list for base configuration.
 
+  - rule_id: xccdf_org.ssgproject.content_rule_auditd_data_retention_max_log_file_action
+    severity: medium
+    - justification: |
+        Auditd configuration values explicitly set for CloudFormation and CloudWatch use, and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_auditd_data_retention_admin_space_left_action
+    severity: medium
+    - justification: |
+        Auditd configuration values explicitly set for CloudFormation and CloudWatch use, and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_auditd_data_disk_full_action
+    severity: medium
+    - justification: |
+        Auditd configuration values explicitly set for CloudFormation and CloudWatch use, and will be tailored.
+
+  - rule_id: xccdf_org.ssgproject.content_rule_auditd_data_disk_error_action
+    severity: medium
+    - justification: |
+        Auditd configuration values explicitly set for CloudFormation and CloudWatch use, and will be tailored.

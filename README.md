@@ -4,7 +4,8 @@ The included packer files serve as a quick-start to creating a hardened AMI in A
 Currently included are two variants that can be used:   
 - _**packer-rhel7-ami.json**_: Creates a RHEL 7.0 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
 - _**packer-centos-ami.json**_: Creates a CentOS 7 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
-- _**packer-rhel8-ami.json**_: Creates a RHEL 8.4 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
+- _**packer-rhel8-ami.json**_: Creates a RHEL 8.5 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
+- _**packer-rhel8-custom-auditd-ami.json**_: Creates a RHEL 8.5 instance with auditd config tailored for less disruptive behavior, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket. This variation is appropriate for an EC2 instance where audit logs are fed to CloudWatch and aging them out via rotation is acceptable.
 
 ## Prerequisites:
 
@@ -37,23 +38,32 @@ export AWS_SECRET_ACCESS_KEY='Your AWS secret access key'
 
 Check to verify that your packer file is properly formatted:  
 ```
-packer validate -var-file=variables.json packer-rhel7-ami.json
+packer validate -var-file=variables.json packer-rhel8-ami.json
 ```
 You can also inspect your packer file to get an overview of the various components:  
 ```
-packer inspect -var-file=variables.json packer-rhel7-ami.json
+packer inspect -var-file=variables.json packer-rhel8-ami.json
 ``` 
 
 ### Build a hardened RHEL/CentOS ami and publish the scan results to s3 bucket
 ```
+packer build -var-file=variables.json packer-rhel8-ami.json
+```
+or
+```
+packer build -var-file=variables.json packer-rhel8-custom-auditd-ami.json
+```
+or
+```
 packer build -var-file=variables.json packer-rhel7-ami.json
-```   
+```
 or   
 ```
 packer build -var-file=variables.json packer-centos-ami.json
 ```
 
-After the successful execution of above command, you should see the new AMI created under the AMI section of the EC2 service on AWS.  
+After the successful execution of above command, you should see the new AMI created under the AMI section of the EC2 service on AWS.
+
 You should also see the scan reports under the S3 service of AWS within the bucket defined in your environment variables above (in this example `hailstone-ami-scan-results`).
 
 ===========================================

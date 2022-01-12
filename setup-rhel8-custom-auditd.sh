@@ -30,7 +30,9 @@ echo "****  Installing required packages   ****"
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
 
-echo "****  Setting audit log rotation config   ***"
+echo "****  Setting custom audit log rotation config   ***"
+# Note that unless used with the associated custom tailoring, scan
+# remediations below will change these values
 sed -i 's/^max_log_file_action.*/max_log_file_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^admin_space_left_action.*/admin_space_left_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^disk_full_action.*/disk_full_action = ROTATE/' /etc/audit/auditd.conf
@@ -58,7 +60,7 @@ wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_8.xml
 oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/Red_Hat_Enterprise_Linux_8.xml
 
 echo "****      Scaning with Stig definition    ****"
-oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel8-disa_tailored" /home/ec2-user/ssg-rhel8-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
+oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel8-disa_tailored" /home/ec2-user/ssg-rhel8-ds-custom-auditd-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
 
 [ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
 reports=$(ls scan*.{html,xml})
@@ -75,3 +77,6 @@ sed -i 's/ fips=1//' /etc/default/grub
 
 yum remove -y epel-release wget
 yum clean all
+
+echo "****   auditd.conf   ****"
+cat /etc/audit/auditd.conf
