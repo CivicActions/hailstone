@@ -30,12 +30,6 @@ echo "****  Installing required packages   ****"
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
 
-echo "****  Setting audit log rotation config   ***"
-sed -i 's/^max_log_file_action.*/max_log_file_action = ROTATE/' /etc/audit/auditd.conf
-sed -i 's/^admin_space_left_action.*/admin_space_left_action = ROTATE/' /etc/audit/auditd.conf
-sed -i 's/^disk_full_action.*/disk_full_action = ROTATE/' /etc/audit/auditd.conf
-sed -i 's/^disk_error_action.*/disk_error_action = SYSLOG/' /etc/audit/auditd.conf
-
 echo "****    Running Remediation steps   ****"
 
 
