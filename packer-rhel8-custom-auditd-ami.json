@@ -37,6 +37,11 @@
       "destination": "/home/ec2-user/"
     },
     {
+      "type": "file",
+      "source": "./custom_privileged.rules",
+      "destination": "/home/ec2-user/"
+    },
+    {
       "type": "shell",
       "inline": [
         "echo '****   Updating kernel   ****'",
