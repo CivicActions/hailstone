@@ -5,7 +5,7 @@ Currently included are two variants that can be used:
 - _**packer-rhel7-ami.json**_: Creates a RHEL 7.0 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
 - _**packer-centos-ami.json**_: Creates a CentOS 7 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
 - _**packer-rhel8-ami.json**_: Creates a RHEL 8.5 instance, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket.
-- _**packer-rhel8-custom-auditd-ami.json**_: Creates a RHEL 8.5 instance with auditd config tailored for less disruptive behavior, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket. This variation is appropriate for an EC2 instance where audit logs are fed to CloudWatch and aging them out via rotation is acceptable.
+- _**packer-rhel8-custom-auditd-ami.json**_: Creates a RHEL 8.5 instance with auditd config tailored for less disruptive behavior, installs and runs openscap to harden the image, and creates an AMI. Scan results are pushed to an S3 Bucket. Adds an additional audit rule for staprun. This variation is appropriate for an EC2 instance where audit logs are fed to CloudWatch and aging them out via rotation is acceptable.
 
 ## Prerequisites:
 

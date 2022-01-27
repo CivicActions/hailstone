@@ -30,13 +30,19 @@ echo "****  Installing required packages   ****"
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
 
-echo "****  Setting custom audit log rotation config   ***"
+echo "****  Setting custom audit configs   ***"
+
 # Note that unless used with the associated custom tailoring, scan
-# remediations below will change these values
+# remediations below will change these logging configs
 sed -i 's/^max_log_file_action.*/max_log_file_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^admin_space_left_action.*/admin_space_left_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^disk_full_action.*/disk_full_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^disk_error_action.*/disk_error_action = SYSLOG/' /etc/audit/auditd.conf
+
+# Add required OpenSCAP configs from custom hardening
+mv /home/ec2-user/custom_privileged.rules /etc/audit/rules.d/
+chown root:root /etc/audit/rules.d/custom_privileged.rules
+chmod 0640 /etc/audit/rules.d/custom_privileged.rules
 
 echo "****    Running Remediation steps   ****"
 
@@ -77,6 +83,3 @@ sed -i 's/ fips=1//' /etc/default/grub
 
 yum remove -y epel-release wget
 yum clean all
-
-echo "****   auditd.conf   ****"
-cat /etc/audit/auditd.conf
