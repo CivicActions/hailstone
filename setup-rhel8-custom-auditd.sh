@@ -19,8 +19,8 @@ echo "****  Installing PIP   ****"
 yum install -y curl python3
 curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py
 python3 get-pip.py
-echo "****  installing awscli version 1.24.10  ****"
-/usr/local/bin/pip3 install --user awscli==1.24.10
+echo "****  installing awscli version 1.16.5   ****"
+/usr/local/bin/pip3 install --user awscli==1.16.5
 
 echo "****  Updating OS     ****"
 yum -y install yum-utils
