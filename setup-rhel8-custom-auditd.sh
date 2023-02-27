@@ -15,6 +15,9 @@ else
     OS=rhel8
 fi
 
+echo "***  Enabling FIPS   ***"
+fips-mode-setup --enable
+
 echo "****  Installing PIP   ****"
 yum install -y curl python3
 curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py
@@ -76,12 +79,6 @@ for report in $reports;do
     echo "****      uploading generated report to s3:  $report      ****"
     su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/" 
 done
-
-# Disabling FIPS
-dracut --force
-grubby --update-kernel=ALL --remove-args=fips=1
-yum remove -y dracut-fips\*
-sed -i 's/ fips=1//' /etc/default/grub
 
 yum remove -y epel-release wget
 yum clean all
