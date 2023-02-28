@@ -50,7 +50,10 @@ chown root:root /etc/audit/rules.d/custom_privileged.rules
 chmod 0640 /etc/audit/rules.d/custom_privileged.rules
 
 echo "****    Running Remediation steps   ****"
-
+# CAT 2 STIG Finding - V-230278
+grubby --update-kernel=ALL --args="vsyscall=none"
+# CAT 3 STIG Finding - V-230491
+grubby --update-kernel=ALL --args="pti=on"
 
 echo "****    Running firewalld remediation   ****"
 firewall-cmd || yum install firewalld -y
