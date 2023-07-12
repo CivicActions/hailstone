@@ -48,11 +48,12 @@ firewall-cmd --reload
 # Scanning 
 echo "****      Scaning with  SSG-OVAL definition   ****"
 # Pull latest OVAL definitions
-wget -q https://www.redhat.com/security/data/oval/Red_Hat_Enterprise_Linux_8.xml -O /tmp/Red_Hat_Enterprise_Linux_8.xml
-oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/Red_Hat_Enterprise_Linux_8.xml
+wget -q https://access.redhat.com/security/data/oval/v2/RHEL8/rhel-8.oval.xml.bz2 -O /tmp/rhel-8.oval.xml.bz2
+bunzip2 -f /tmp/rhel-8.oval.xml.bz2
+oscap oval eval --results scan-oval-results.xml --report scan-oval-report.html /tmp/rhel-8.oval.xml
 
 echo "****      Scaning with Stig definition    ****"
-oscap xccdf eval --remediate --fetch-remote-resources --results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel8-disa_tailored" /home/ec2-user/ssg-rhel8-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
+oscap xccdf eval --remediate -results-arf scan-stig-xccdf-arf-result.xml --report scan-stig-xccdf-report.html --profile "xccdf_org.globalnet_profile_stig-rhel8-disa_tailored" /home/ec2-user/ssg-rhel8-ds-tailoring.xml || echo "Seems the scan finished with non-zero error code:      $?"
 
 [ -z $ami_name ] && DIR_NAME=${OS}-$(date +"%Y%m%d-%H%M%S") || DIR_NAME=$ami_name
 reports=$(ls scan*.{html,xml})
