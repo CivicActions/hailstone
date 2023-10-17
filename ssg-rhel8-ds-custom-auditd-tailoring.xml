@@ -64,5 +64,7 @@ all of these checks should pass.</xccdf:description>
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_auditd_data_disk_error_action" selected="false"/>
     <!-- RD-7562 - GNET tailors out and does not implement fapolicyd -->
     <xccdf:select idref="xccdf_org.ssgproject.content_rule_fapolicy_default_deny" selected="false"/>
+    <!-- RD-8006 - GNET tailors out and requires long ssh idle timeout to accomodate deploys -->
+    <xccdf:select idref="xccdf_org.ssgproject.content_rule_logind_session_timeout" selected="false"/>
   </xccdf:Profile>
 </xccdf:Tailoring>

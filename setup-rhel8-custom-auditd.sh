@@ -44,6 +44,9 @@ sed -i 's/^admin_space_left_action.*/admin_space_left_action = ROTATE/' /etc/aud
 sed -i 's/^disk_full_action.*/disk_full_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^disk_error_action.*/disk_error_action = SYSLOG/' /etc/audit/auditd.conf
 
+# RD-8006 - GNET tailors out and requires long ssh idle timeout to accomodate deploys
+sed -i 's/^#StopIdleSessionSec.*/StopIdleSessionSec=infinity/' /etc/systemd/logind.conf
+
 # Add required OpenSCAP configs from custom hardening
 mv /home/ec2-user/custom_privileged.rules /etc/audit/rules.d/
 chown root:root /etc/audit/rules.d/custom_privileged.rules
