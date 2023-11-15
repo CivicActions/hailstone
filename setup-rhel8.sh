@@ -16,25 +16,28 @@ else
 fi
 
 echo "****  Installing PIP   ****"
-yum install -y curl python3
+dnf install -y curl python3
 curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py
 python3 get-pip.py
 echo "****  installing awscli version 1.16.5   ****"
 /usr/local/bin/pip3 install --user awscli==1.16.5
 
 echo "****  Updating OS     ****"
-yum -y install yum-utils
-yum update -y
+dnf clean all
+dnf check
+dnf check-update
+dnf -y install yum-utils
+dnf update -y
 
 echo "****  Installing required packages   ****"
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
+dnf install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
 
 echo "****    Running Remediation steps   ****"
 
 
 echo "****    Running firewalld remediation   ****"
-firewall-cmd || yum install firewalld -y
+firewall-cmd || dnf install firewalld -y
 systemctl restart dbus
 systemctl restart firewalld
 systemctl enable firewalld
@@ -65,8 +68,8 @@ done
 # Disabling FIPS
 dracut --force
 grubby --update-kernel=ALL --remove-args=fips=1
-yum remove -y dracut-fips\*
+dnf remove -y dracut-fips\*
 sed -i 's/ fips=1//' /etc/default/grub
 
-yum remove -y epel-release wget
-yum clean all
+dnf remove -y epel-release wget
+dnf clean all

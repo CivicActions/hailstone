@@ -18,8 +18,12 @@ fi
 echo "***  Enabling FIPS   ***"
 fips-mode-setup --enable
 
+# RD-8006 - GNET tailors out and requires long ssh idle timeout to accomodate deploys
+sed -i 's/^#StopIdleSessionSec.*/StopIdleSessionSec=infinity/' /etc/systemd/logind.conf
+systemctl restart systemd-logind.service
+
 echo "****  Installing PIP   ****"
-yum install -y curl python3
+dnf install -y curl python3
 curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py
 python3 get-pip.py
 echo "****  installing requests  ****"
@@ -28,12 +32,15 @@ echo "****  installing awscli version 1.24.10  ****"
 /usr/local/bin/pip3 install --user --no-warn-script-location awscli==1.24.10
 
 echo "****  Updating OS     ****"
-yum -y install yum-utils
-yum update -y
+dnf clean all
+dnf check
+dnf check-update
+dnf -y install yum-utils
+dnf update -y
 
 echo "****  Installing required packages   ****"
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-yum install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
+dnf install -y openscap-utils scap-security-guide htop fail2ban aide firewalld gdisk wget net-tools
 
 echo "****  Setting custom audit configs   ***"
 
@@ -43,9 +50,6 @@ sed -i 's/^max_log_file_action.*/max_log_file_action = ROTATE/' /etc/audit/audit
 sed -i 's/^admin_space_left_action.*/admin_space_left_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^disk_full_action.*/disk_full_action = ROTATE/' /etc/audit/auditd.conf
 sed -i 's/^disk_error_action.*/disk_error_action = SYSLOG/' /etc/audit/auditd.conf
-
-# RD-8006 - GNET tailors out and requires long ssh idle timeout to accomodate deploys
-sed -i 's/^#StopIdleSessionSec.*/StopIdleSessionSec=infinity/' /etc/systemd/logind.conf
 
 # Add required OpenSCAP configs from custom hardening
 mv /home/ec2-user/custom_privileged.rules /etc/audit/rules.d/
@@ -59,7 +63,7 @@ grubby --update-kernel=ALL --args="vsyscall=none"
 grubby --update-kernel=ALL --args="pti=on"
 
 echo "****    Running firewalld remediation   ****"
-firewall-cmd || yum install firewalld -y
+firewall-cmd || dnf install firewalld -y
 systemctl restart dbus
 systemctl restart firewalld
 systemctl enable firewalld
@@ -87,5 +91,5 @@ for report in $reports;do
     su - root -c "/root/.local/bin/aws s3 cp $(pwd)/${report} s3://${bucket}/${DIR_NAME}/" 
 done
 
-yum remove -y epel-release wget
-yum clean all
+dnf remove -y epel-release wget
+dnf clean all
