@@ -18,7 +18,7 @@
     "instance_type": "{{user `instance_type`}}",
     "ssh_username": "{{user `ssh_username`}}",
     "ssh_pty": "true",
-    "ami_name": "RHEL8-hardened-{{isotime \"2006-01-02-1504\"}}",
+    "ami_name": "TEST-RHEL8-hardened-{{isotime \"2006-01-02-1504\"}}",
     "ami_groups": "{{user `ami_groups`}}",
     "ami_regions": "{{user `ami_regions`}}",
     "iam_instance_profile": "{{user `iam_instance_profile`}}",
@@ -53,7 +53,7 @@
     {
         "environment_vars": [
           "bucket={{ user `bucket_name`}}",
-          "ami_name=RHEL8-hardened-{{isotime \"2006-01-02-1504\"}}"
+          "ami_name=TEST-RHEL8-hardened-{{isotime \"2006-01-02-1504\"}}"
         ],
         "type": "shell",
         "script": "setup-rhel8-custom-auditd.sh",
