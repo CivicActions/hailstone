@@ -25,7 +25,7 @@ echo "****  installing awscli version 1.16.5   ****"
 echo "****  Updating OS     ****"
 dnf clean all
 dnf check
-dnf check-update
+#dnf check-update && true
 dnf -y install yum-utils
 dnf update -y
 
