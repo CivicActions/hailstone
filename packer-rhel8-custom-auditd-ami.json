@@ -9,7 +9,7 @@
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
-        "name": "RHEL-8.8.0_HVM-*x86_64*",
+        "name": "RHEL-8.9.0_HVM-*x86_64*",
         "root-device-type": "ebs"
       },
       "owners": ["309956199498"],
@@ -45,7 +45,8 @@
       "type": "shell",
       "inline": [
         "echo '****   Updating kernel   ****'",
-        "sudo yum -y update kernel kernel-tools*",
+        "sudo dnf -y update kernel kernel-tools*",
+        "sudo sed -i 's/^#StopIdleSessionSec.*/StopIdleSessionSec=infinity/' /etc/systemd/logind.conf",
         "sudo systemctl reboot"
       ],
       "expect_disconnect": "true"
@@ -58,7 +59,8 @@
         "type": "shell",
         "script": "setup-rhel8-custom-auditd.sh",
         "execute_command": "{{.Vars}} sudo -E -sS bash '{{.Path}}'",
-        "pause_before": "40s"
+        "pause_before": "40s",
+        "valid_exit_codes": [0]
     }
   ],
   "post-processors": [

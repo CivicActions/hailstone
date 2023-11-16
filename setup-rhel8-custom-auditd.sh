@@ -19,6 +19,7 @@ echo "***  Enabling FIPS   ***"
 fips-mode-setup --enable
 
 # RD-8006 - GNET tailors out and requires long ssh idle timeout to accomodate deploys
+echo "Removing idle session timeout from /etc/systemd/logind.conf"
 sed -i 's/^#StopIdleSessionSec.*/StopIdleSessionSec=infinity/' /etc/systemd/logind.conf
 systemctl restart systemd-logind.service
 
@@ -34,9 +35,9 @@ echo "****  installing awscli version 1.24.10  ****"
 echo "****  Updating OS     ****"
 dnf clean all
 dnf check
-dnf check-update
+#dnf check-update && true
 dnf -y install yum-utils
-dnf update -y
+dnf upgrade -y
 
 echo "****  Installing required packages   ****"
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
